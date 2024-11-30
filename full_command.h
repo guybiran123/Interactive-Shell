@@ -2,19 +2,25 @@
 
 #include <string>
 
-class FullCommand {
+struct Redirection_s {
+	bool toRedirect{ false };
+	std::string fileName{ };
+};
+
+class CliCommand {
 private:
-	std::string fullCommand;
+	std::string cliCommand;
 	std::string output;
-	bool redirect;
-	std::string fileName;
+	std::string error;
+	Redirection_s outRedirection;
+	Redirection_s errRedirection;
 
 public:
-	FullCommand() = default;
+	CliCommand() = default;
 
-	void execute(const std::string& fullCommand, bool userEntered = true);
+	void execute(const std::string& cliCommand, bool userEntered = true);
 
-	void initialize(const std::string& fullCommand);
+	void initialize(const std::string& cliCommand);
 
 	void searchRedirection();
 

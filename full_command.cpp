@@ -1,24 +1,36 @@
 #include "full_command.h"
 #include "constants.h"
 
-void FullCommand::execute(const std::string& fullCommand, bool userEntered = true) {
-	initialize(fullCommand);
+void CliCommand::execute(const std::string& cliCommand, bool userEntered = true) {
+	initialize(cliCommand);
 	searchRedirection();
 
 }
 
-void FullCommand::initialize(const std::string& fullCommand) {
-	this->fullCommand = fullCommand;
+void CliCommand::initialize(const std::string& cliCommand) {
+	this->cliCommand = cliCommand;
 	output = "";
-	redirect = false;
-	fileName = "";
+	error = "";
+	outRedirection.toRedirect = false;
+	outRedirection.fileName = "";
+	errRedirection.toRedirect = false;
+	errRedirection.fileName = "";
 }
 
-void FullCommand::searchRedirection() {
-	int redirectionPos = fullCommand.find(OUTPUT_REDIRECTION_CHARACTER);
+//change it to work with both redirections in one command
+void CliCommand::searchRedirection() { 
+	int redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOL);
 	if (redirectionPos != std::string::npos) {
-		redirect = true;
-		fileName = fullCommand.substr(redirectionPos + 1);
-		fullCommand.erase(redirectionPos);
+		outRedirection.toRedirect = true;
+		outRedirection.fileName = cliCommand.substr(redirectionPos + 1);
+		cliCommand.erase(redirectionPos);
+	}
+	else {
+		redirectionPos = cliCommand.find(ERROR_REDIRECTION_SYMBOL);
+		if (redirectionPos != std::string::npos) {
+			errRedirection.toRedirect = true;
+			errRedirection.fileName = cliCommand.substr(redirectionPos + 1);
+			cliCommand.erase(redirectionPos);
+		}
 	}
 }
