@@ -1,5 +1,8 @@
 #include "echo_command.h"
 
+EchoCommand::EchoCommand(const std::string& flags, const std::vector<std::string>& arguments) :
+	Command(flags, arguments){}
+
 void EchoCommand::execute() {
 	if (errorChecking()) {
 		output.doesExist = true;

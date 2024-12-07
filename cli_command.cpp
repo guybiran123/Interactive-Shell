@@ -7,7 +7,7 @@ void Redirection_s::initialize() {
 
 const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo" };
 
-void CliCommand::execute(const std::string& cliCommand, bool userEntered = true) {
+void CliCommand::execute(const std::string& cliCommand, bool userEntered) {
 	//executes the full CLI command
 	initialize(cliCommand);
 	searchRedirection();
@@ -60,9 +60,11 @@ void CliCommand::createParsedCommand(ParsedCommand_s& parsedCommand) {
 	parsedCommand.commandName = splittedCommand.at(FIRST_INDEX);
 	splittedCommand.erase(splittedCommand.begin());
 	parsedCommand.flags = "";
-	if (splittedCommand.at(FIRST_INDEX).at(FIRST_INDEX) == FLAGS_SYMBOL) {
-		parsedCommand.flags = splittedCommand.at(FIRST_INDEX).substr(1);
-		splittedCommand.erase(splittedCommand.begin());
+	if (!splittedCommand.empty()) {
+		if (splittedCommand.at(FIRST_INDEX).at(FIRST_INDEX) == FLAGS_SYMBOL) {
+			parsedCommand.flags = splittedCommand.at(FIRST_INDEX).substr(1);
+			splittedCommand.erase(splittedCommand.begin());
+		}
 	}
 	parsedCommand.arguments = splittedCommand;
 }
