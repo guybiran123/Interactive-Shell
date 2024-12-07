@@ -4,9 +4,7 @@
 
 class EchoCommand : public Command {
 public:
-	void execute() override {
-		for (const std::string& str : arguments) {
-			output += str + " ";
-		}
-	}
+	void execute() override;
+
+	bool errorChecking() override;
 };

@@ -2,11 +2,12 @@
 
 #include <string>
 #include <vector>
+#include "utils.h"
 
 class Command {
 protected:
-	std::string output;
-	std::string error;
+	Message_s output;
+	Message_s error;
 	std::string flags;
 	std::vector<std::string> arguments;
 
@@ -15,7 +16,10 @@ public:
 
 	virtual void execute() = 0;
 
-	const std::string& getOutput() const;
+	//returns true if no errors were found
+	virtual bool errorChecking() = 0;
 
-	const std::string& getError() const;
+	Message_s getOutput() const;
+
+	Message_s getError() const;
 };

@@ -10,10 +10,13 @@
 #include "utils.h"
 #include "command.h"
 #include "echo_command.h"
+#include "out.h"
 
 struct Redirection_s {
 	bool toRedirect{ false };
 	std::string fileName{ };
+
+	void initialize();
 };
 
 struct ParsedCommand_s {
@@ -24,11 +27,14 @@ struct ParsedCommand_s {
 
 class CliCommand {
 private:
+	Out out;
 	std::string cliCommand;
-	std::string output;
-	std::string error;
+	Message_s output;
+	Message_s error;
 	Redirection_s outRedirection;
 	Redirection_s errRedirection;
+
+	static const std::vector<std::string> VALID_COMMANDS;
 
 public:
 	CliCommand() = default;
@@ -42,4 +48,12 @@ public:
 	void createParsedCommand(ParsedCommand_s& parsedCommand);
 
 	std::unique_ptr<Command> createCommand(const ParsedCommand_s& parsedCommand);
+
+	static bool isValidCommand(std::string commandName);
+
+	void writeErrorMessage(std::string message);
+
+	void getMessagesFromCommand(const std::unique_ptr<Command>& commandPtr);
+
+	void printMessages();
 };
