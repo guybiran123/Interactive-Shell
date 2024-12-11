@@ -33,20 +33,22 @@ void CliCommand::initialize(const std::string& cliCommand) {
 	errRedirection.initialize();
 }
 
-//change it to work with both redirections in one command
+// TODO: change it to work with both redirections in one command
 void CliCommand::searchRedirection() { 
-	//searches for redirection in cli command
-	int redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOL);
+	// Searches for redirection in cli command
+	int redirectionPos = cliCommand.find(ERROR_REDIRECTION_SYMBOL);
 	if (redirectionPos != std::string::npos) {
-		outRedirection.toRedirect = true;
-		outRedirection.fileName = cliCommand.substr(redirectionPos + 1);
+		errRedirection.toRedirect = true;
+		error.doesExist = true;
+		errRedirection.fileName = cliCommand.substr(redirectionPos + 2);
 		cliCommand.erase(redirectionPos);
 	}
 	else {
-		redirectionPos = cliCommand.find(ERROR_REDIRECTION_SYMBOL);
+		redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOL);
 		if (redirectionPos != std::string::npos) {
-			errRedirection.toRedirect = true;
-			errRedirection.fileName = cliCommand.substr(redirectionPos + 1);
+			outRedirection.toRedirect = true;
+			output.doesExist = true;
+			outRedirection.fileName = cliCommand.substr(redirectionPos + 1);
 			cliCommand.erase(redirectionPos);
 		}
 	}
@@ -98,13 +100,21 @@ void CliCommand::writeErrorMessage(std::string message) {
 
 void CliCommand::getMessagesFromCommand(const std::unique_ptr<Command>& commandPtr) {
 	output = commandPtr->getOutput();
-	error = commandPtr->getError();
+	Message_s commandErr = commandPtr->getError();
+	if (!(error.doesExist && !commandErr.doesExist)) {
+		error = commandPtr->getError();
+	}
 }
 
 void CliCommand::printMessages() {
 	if (output.doesExist) {
 		if (outRedirection.toRedirect) {
-			out.writeToFile(outRedirection.fileName, output.message);
+			try {
+				out.writeToFile(outRedirection.fileName, output.message);
+			}
+			catch (const std::runtime_error& exception) {
+				writeErrorMessage(exception.what());
+			}
 		}
 		else {
 			out.writeConsole(output.message);
@@ -112,7 +122,12 @@ void CliCommand::printMessages() {
 	}
 	if (error.doesExist) {
 		if (errRedirection.toRedirect) {
-			out.writeToFile(errRedirection.fileName, error.message);
+			try {
+				out.writeToFile(errRedirection.fileName, error.message);
+			}
+			catch (const std::runtime_error& exception) {
+				out.writeError(error.message + '\n' + exception.what());
+			}
 		}
 		else {
 			out.writeError(error.message);
