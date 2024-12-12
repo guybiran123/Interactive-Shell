@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include "constants.h"
 
 struct Message_s {
 	bool doesExist{false};
@@ -13,3 +15,8 @@ struct Message_s {
 
 std::vector<std::string> split(const std::string& str, char delimiter);
 
+std::string substrIndexToChar(std::string str, int startIndex, char character, bool includeChar);
+
+std::string trimLeadinSpaces(std::string str);
+
+std::string trimTrailingSpaces(std::string str);

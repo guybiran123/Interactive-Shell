@@ -10,6 +10,7 @@ const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo" };
 void CliCommand::execute(const std::string& cliCommand, bool userEntered) {
 	//executes the full CLI command
 	initialize(cliCommand);
+	removeLeadingAndTrailingSpaces();
 	searchRedirection();
 	ParsedCommand_s parsedCommand;
 	createParsedCommand(parsedCommand);
@@ -33,6 +34,11 @@ void CliCommand::initialize(const std::string& cliCommand) {
 	errRedirection.initialize();
 }
 
+void CliCommand::removeLeadingAndTrailingSpaces() {
+	cliCommand = trimLeadinSpaces(cliCommand);
+	cliCommand = trimTrailingSpaces(cliCommand);
+}
+
 // TODO: change it to work with both redirections in one command
 void CliCommand::searchRedirection() { 
 	// Searches for redirection in cli command
@@ -40,20 +46,52 @@ void CliCommand::searchRedirection() {
 	if (redirectionPos != std::string::npos) {
 		errRedirection.toRedirect = true;
 		error.doesExist = true;
-		errRedirection.fileName = cliCommand.substr(redirectionPos + 2);
-		cliCommand.erase(redirectionPos);
+		createRedirectionFileNameString(errRedirection.fileName, redirectionPos, ERROR_REDIRECTION_SYMBOL.size());
+	}
+	redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOLS[SECOND_INDEX]);
+	if (redirectionPos != std::string::npos) {
+		outRedirection.toRedirect = true;
+		output.doesExist = true;
+		createRedirectionFileNameString(outRedirection.fileName, redirectionPos, OUTPUT_REDIRECTION_SYMBOLS[SECOND_INDEX].size());
 	}
 	else {
-		redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOL);
+		redirectionPos = cliCommand.find(OUTPUT_REDIRECTION_SYMBOLS[FIRST_INDEX]);
 		if (redirectionPos != std::string::npos) {
 			outRedirection.toRedirect = true;
 			output.doesExist = true;
-			outRedirection.fileName = cliCommand.substr(redirectionPos + 1);
-			cliCommand.erase(redirectionPos);
+			createRedirectionFileNameString(outRedirection.fileName, redirectionPos, OUTPUT_REDIRECTION_SYMBOLS[FIRST_INDEX].size());
 		}
 	}
+}
 
-	
+void CliCommand::createRedirectionFileNameString(std::string& redirectionFileName, int redirectionPos, int redirectionSymbolLength) {
+	redirectionFileName = cliCommand.substr(redirectionPos + redirectionSymbolLength);
+	redirectionFileName = trimLeadinSpaces(redirectionFileName);
+	if (redirectionFileName == "") {
+		return;
+	}
+	if (redirectionFileName[FIRST_INDEX] == '"' || redirectionFileName[FIRST_INDEX] == '\'') {
+		char quoteSign = redirectionFileName[FIRST_INDEX];
+		redirectionFileName = redirectionFileName.substr(SECOND_INDEX);
+		int secondQuotePos = redirectionFileName.find(quoteSign);
+		if (secondQuotePos != std::string::npos) {
+			std::string remainingString = (secondQuotePos == redirectionFileName.size() - 1) ? "" : redirectionFileName.substr(secondQuotePos + 1);
+			redirectionFileName = substrIndexToChar(redirectionFileName, FIRST_INDEX, secondQuotePos, false);
+			cliCommand.erase(redirectionPos);
+			cliCommand += remainingString;
+			return;
+		}
+	}
+	redirectionFileName = trimLeadinSpaces(redirectionFileName);
+	redirectionFileName = trimTrailingSpaces(redirectionFileName);
+	int spacePos = redirectionFileName.find(' ');
+	if (spacePos != std::string::npos) {
+		std::string remainingString = redirectionFileName.substr(spacePos + 1);
+		redirectionFileName = substrIndexToChar(redirectionFileName, FIRST_INDEX, ' ', false);
+		cliCommand.erase(redirectionPos);
+		cliCommand += remainingString;
+	}
+	cliCommand.erase(redirectionPos);
 }
 
 void CliCommand::createParsedCommand(ParsedCommand_s& parsedCommand) {

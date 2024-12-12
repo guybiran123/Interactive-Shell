@@ -45,6 +45,10 @@ public:
 
 	void searchRedirection();
 
+	void removeLeadingAndTrailingSpaces();
+
+	void createRedirectionFileNameString(std::string& redirectionFileName, int redirectionPos, int redirectionSymbolLength);
+
 	void createParsedCommand(ParsedCommand_s& parsedCommand);
 
 	std::unique_ptr<Command> createCommand(const ParsedCommand_s& parsedCommand);
