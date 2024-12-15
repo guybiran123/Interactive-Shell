@@ -128,12 +128,12 @@ std::unique_ptr<Command> CliCommand::createCommand(const ParsedCommand_s& parsed
 	}
 }
 
-bool CliCommand::isValidCommand(std::string commandName) {
+bool CliCommand::isValidCommand(const std::string& commandName) {
 	//returns true of the given command is valid
 	return std::find(VALID_COMMANDS.begin(), VALID_COMMANDS.end(), commandName) != VALID_COMMANDS.end();
 }
 
-void CliCommand::writeErrorMessage(std::string message) {
+void CliCommand::writeErrorMessage(const std::string& message) {
 	error.doesExist = true;
 	error.message = message;
 }

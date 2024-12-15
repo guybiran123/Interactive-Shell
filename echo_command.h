@@ -8,5 +8,5 @@ public:
 
 	void execute() override;
 
-	bool errorChecking() override;
+	void errorChecking() override;
 };

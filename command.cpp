@@ -1,11 +1,23 @@
 #include "command.h"
 
-Command::Command(const std::string& flags, const std::vector<std::string>& arguments) :
+Command::Command(const std::string& flags,
+	const std::vector<std::string>& arguments,
+	const std::string_view& validFlags) :
 	flags{ flags },
-	arguments{ arguments }
+	arguments{ arguments },
+	validFlags{ validFlags }
 {
 	output.initialize();
 	error.initialize();
+}
+
+bool Command::areFlagsValid() {
+	for (char f : flags) {
+		if (std::find(validFlags.begin(), validFlags.end(), f) == validFlags.end()) {
+			return false;
+		}
+	}
+	return true;
 }
 
 Message_s Command::getOutput() const {

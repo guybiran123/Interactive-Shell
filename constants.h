@@ -10,3 +10,6 @@ inline constexpr char FLAGS_SYMBOL = '-';
 inline constexpr int FIRST_INDEX = 0;
 inline constexpr int SECOND_INDEX = 1;
 
+inline constexpr std::string_view ECHO_VALID_FLAGS = "";
+inline constexpr std::string_view CAT_VALID_FLAGS = "nETs";
+

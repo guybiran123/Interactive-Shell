@@ -53,9 +53,9 @@ public:
 
 	std::unique_ptr<Command> createCommand(const ParsedCommand_s& parsedCommand);
 
-	static bool isValidCommand(std::string commandName);
+	static bool isValidCommand(const std::string& commandName);
 
-	void writeErrorMessage(std::string message);
+	void writeErrorMessage(const std::string& message);
 
 	void getMessagesFromCommand(const std::unique_ptr<Command>& commandPtr);
 
