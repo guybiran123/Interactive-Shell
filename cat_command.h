@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
 #include "command.h"
+#include "file_reader.h"
+#include "env_vars.h"
 
 class CatCommand : public Command {
 public:
@@ -9,4 +12,6 @@ public:
 	void execute() override;
 
 	void errorChecking() override;
+
+	void makeFlagsChanges(std::string& fileContent);
 };

@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include "cli_command.h"
+#include "env_vars.h"
 
 int main()
 {
+    EnvVars::initialize();
     CliCommand cli;
     std::string cli_string;
     while (true) {

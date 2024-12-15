@@ -3,10 +3,10 @@
 std::map<std::string, std::string> EnvVars::env;
 
 void EnvVars::initialize() {
-	env["HOME"] = "";
+	env["HOME"] = HOME_DIRECTORY;
 	env["PATH"] = "";
-	env["PWD"] = "";
-	env["OLDPWD"] = "";
+	env["PWD"] = env["HOME"];
+	env["OLDPWD"] = env["HOME"];
 }
 
 void EnvVars::setVar(const std::string& key, const std::string& value) {
@@ -14,5 +14,9 @@ void EnvVars::setVar(const std::string& key, const std::string& value) {
 }
 
 std::string EnvVars::getVar(const std::string& key) {
-	return env.count(key) ? env[key] : "";
+	if (env.count(key)) {
+		return env[key];
+	}
+	return "";
+	//return env.count(key) ? env[key] : "";
 }

@@ -5,7 +5,7 @@ void Redirection_s::initialize() {
 	fileName = "";
 }
 
-const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo" };
+const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo", "cat" };
 
 void CliCommand::execute(const std::string& cliCommand, bool userEntered) {
 	//executes the full CLI command
@@ -116,7 +116,8 @@ std::unique_ptr<Command> CliCommand::createCommand(const ParsedCommand_s& parsed
 	using commandCreator = std::function<std::unique_ptr<Command>(const ParsedCommand_s&)>;
 
 	static std::unordered_map<std::string, commandCreator> commandTable = {
-		{"echo", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<EchoCommand>(parsedCommand.flags, parsedCommand.arguments); }}
+		{"echo", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<EchoCommand>(parsedCommand.flags, parsedCommand.arguments); }},
+		{"cat", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<CatCommand>(parsedCommand.flags, parsedCommand.arguments); }}
 	};
 
 	auto iterator = commandTable.find(parsedCommand.commandName);
