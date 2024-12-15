@@ -76,7 +76,7 @@ void CliCommand::createRedirectionFileNameString(std::string& redirectionFileNam
 		int secondQuotePos = redirectionFileName.find(quoteSign);
 		if (secondQuotePos != std::string::npos) {
 			std::string remainingString = (secondQuotePos == redirectionFileName.size() - 1) ? "" : redirectionFileName.substr(secondQuotePos + 1);
-			redirectionFileName = substrIndexToChar(redirectionFileName, FIRST_INDEX, secondQuotePos, false);
+			redirectionFileName = substrIndexToChar(redirectionFileName, FIRST_INDEX, redirectionFileName.at(secondQuotePos), false);
 			cliCommand.erase(redirectionPos);
 			cliCommand += remainingString;
 			return;
@@ -91,7 +91,9 @@ void CliCommand::createRedirectionFileNameString(std::string& redirectionFileNam
 		cliCommand.erase(redirectionPos);
 		cliCommand += remainingString;
 	}
-	cliCommand.erase(redirectionPos);
+	else {
+		cliCommand.erase(redirectionPos);
+	}
 }
 
 void CliCommand::createParsedCommand(ParsedCommand_s& parsedCommand) {

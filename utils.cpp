@@ -11,7 +11,9 @@ std::vector<std::string> split(const std::string& str, char delimiter) {
     std::string token;               // Temporary storage for each substring
 
     while (std::getline(ss, token, delimiter)) {
-        tokens.push_back(token);     // Add each substring to the vector
+		if (token != "") {
+			tokens.push_back(token); // Add each substring to the vector
+		}
     }
 
     return tokens;                   // Return the resulting substrings
