@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <sstream>
 #include "command.h"
 #include "file_reader.h"
 #include "env_vars.h"
@@ -14,4 +15,10 @@ public:
 	void errorChecking() override;
 
 	void makeFlagsChanges(std::string& fileContent);
+
+	void numberLines(std::string& fileContent);
+
+	void showEnds(std::string& fileContent);
+
+	void squeezeBlank(std::string& fileContent);
 };

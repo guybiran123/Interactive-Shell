@@ -26,6 +26,8 @@ public:
 
 	bool areFlagsValid();
 
+	bool inFlags(char flag);
+
 	Message_s getOutput() const;
 
 	Message_s getError() const;

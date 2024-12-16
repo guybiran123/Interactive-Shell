@@ -20,7 +20,6 @@ void CatCommand::execute() {
 		}
 		catch (const std::runtime_error& exception) {
 			try {
-				std::string j = EnvVars::getVar("PWD");
 				file_ptr = std::make_unique<FileReader>(EnvVars::getVar("PWD") + "\\" + arg);
 			}
 			catch(const std::runtime_error& exception2){
@@ -38,7 +37,7 @@ void CatCommand::execute() {
 
 void CatCommand::errorChecking() {
 	if (!areFlagsValid()) {
-		throw std::runtime_error("echo: invalid option -- '" + flags + "'");
+		throw std::runtime_error("cat: invalid option -- '" + flags + "'");
 	}
 	if (arguments.empty()) {
 		throw std::runtime_error("cat: missing file operand");
@@ -46,5 +45,57 @@ void CatCommand::errorChecking() {
 }
 
 void CatCommand::makeFlagsChanges(std::string& fileContent) {
+	if (inFlags('s')) {
+		squeezeBlank(fileContent);
+	}
+	if (inFlags('n')) {
+		numberLines(fileContent);
+	}
+	if (inFlags('E')) {
+		showEnds(fileContent);
+	}
+}
 
+void CatCommand::numberLines(std::string& fileContent) {
+	std::istringstream stream(fileContent);
+	std::string line;
+	fileContent = "";
+	int lineNumber = 1;
+	bool firstLoop = true;
+	while (std::getline(stream, line)) {
+		if (!firstLoop) {
+			fileContent += '\n';
+		}
+		fileContent += std::to_string(lineNumber) + "  " + line;
+		++lineNumber;
+		firstLoop = false;
+	}	
+}
+
+void CatCommand::showEnds(std::string& fileContent) {
+	std::istringstream stream(fileContent);
+	std::string line;
+	fileContent = "";;
+	bool firstLoop = true;
+	while (std::getline(stream, line)) {
+		if (!firstLoop) {
+			fileContent += '\n';
+		}
+		fileContent += line + '$';
+		firstLoop = false;
+	}
+}
+
+void CatCommand::squeezeBlank(std::string& fileContent) {
+	std::istringstream stream(fileContent);
+	std::string line;
+	fileContent = "";;
+	bool firstLoop = true;
+	while (std::getline(stream, line)) {
+		if (!firstLoop && line != "") {
+			fileContent += '\n';
+		}
+		fileContent += line;
+		firstLoop = false;
+	}
 }

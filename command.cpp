@@ -20,6 +20,10 @@ bool Command::areFlagsValid() {
 	return true;
 }
 
+bool Command::inFlags(char flag) {
+	return std::find(flags.begin(), flags.end(), flag) != flags.end();
+}
+
 Message_s Command::getOutput() const {
 	return output;
 }
