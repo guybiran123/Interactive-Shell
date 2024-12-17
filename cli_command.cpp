@@ -103,7 +103,8 @@ void CliCommand::createParsedCommand(ParsedCommand_s& parsedCommand) {
 	splittedCommand.erase(splittedCommand.begin());
 	parsedCommand.flags = "";
 	if (!splittedCommand.empty()) {
-		if (splittedCommand.at(FIRST_INDEX).at(FIRST_INDEX) == FLAGS_SYMBOL) {
+		if (splittedCommand.at(FIRST_INDEX).at(FIRST_INDEX) == FLAGS_SYMBOL &&
+			splittedCommand.at(FIRST_INDEX).size() != 1) {
 			parsedCommand.flags = splittedCommand.at(FIRST_INDEX).substr(1);
 			splittedCommand.erase(splittedCommand.begin());
 		}
