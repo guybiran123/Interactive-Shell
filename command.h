@@ -31,4 +31,8 @@ public:
 	Message_s getOutput() const;
 
 	Message_s getError() const;
+
+	void writeErrorMessage(const std::string& message);
+
+	void writeOutputMessage(const std::string& message);
 };

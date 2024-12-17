@@ -31,3 +31,13 @@ Message_s Command::getOutput() const {
 Message_s Command::getError() const {
 	return error;
 }
+
+void Command::writeErrorMessage(const std::string& message) {
+	error.doesExist = true;
+	error.message = message;
+}
+
+void Command::writeOutputMessage(const std::string& message) {
+	output.doesExist = true;
+	output.message = message;
+}

@@ -8,8 +8,7 @@ void EchoCommand::execute() {
 		errorChecking();
 	}
 	catch (const std::runtime_error& exception) {
-		error.doesExist = true;
-		error.message = exception.what();
+		writeErrorMessage(exception.what());
 		return;
 	}
 	output.doesExist = true;

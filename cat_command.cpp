@@ -8,8 +8,7 @@ void CatCommand::execute() {
 		errorChecking();
 	}
 	catch (const std::runtime_error& exception) {
-		error.doesExist = true;
-		error.message = exception.what();
+		writeErrorMessage(exception.what());
 		return;
 	}
 	
@@ -23,8 +22,7 @@ void CatCommand::execute() {
 				file_ptr = std::make_unique<FileReader>(EnvVars::getVar("PWD") + "\\" + arg);
 			}
 			catch(const std::runtime_error& exception2){
-				error.doesExist = true;
-				error.message = exception.what();
+				writeErrorMessage(exception.what());
 				return;
 			}
 		}
