@@ -7,11 +7,14 @@ int main()
 {
     EnvVars::initialize();
     CliCommand cli;
-    std::string cli_string;
+    std::string cliString;
     while (true) {
         std::cout << "\033[32m" + EnvVars::getVar("PWD") + "$ \033[0m";
-        std::getline(std::cin, cli_string);
-        cli.execute(cli_string);
+        std::getline(std::cin, cliString);
+        if (cliString == "exit") {
+            break;
+        }
+        cli.execute(cliString);
     }
     return 0;
 }

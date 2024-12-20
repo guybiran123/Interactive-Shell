@@ -1,14 +1,14 @@
 #include "cd_command.h"
 
-void changeDirectory(const std::string& directory);
+static void changeDirectory(const std::string& directory);
 
-void changeToHome();
+static void changeToHome();
 
-void changeToOld();
+static void changeToOld();
 
-void changeToParent();
+static void changeToParent();
 
-void changeToRoot();
+static void changeToRoot();
 
 CdCommand::CdCommand(const std::string& flags, const std::vector<std::string>& arguments) :
 	Command(flags, arguments, CD_VALID_FLAGS) {}
@@ -23,15 +23,6 @@ void CdCommand::execute() {
 		return;
 	}
 	handleArgument();
-	/*
-	V cd – Goes to your home directory. 
-	cd /path/to/directory – Goes to an absolute path.
-	cd relative/directory – Goes to a directory relative to the current one.
-	cd .. – Goes to the parent directory.
-	V cd - – Goes to the previous directory.
-	V cd ~ – Goes to your home directory (equivalent to cd with no arguments).
-	cd / – Goes to the root directory.
-	*/
 	
 }
 
@@ -77,25 +68,25 @@ void CdCommand::errorChecking() {
 	}
 }
 
-void changeDirectory(const std::string& directory) {
+static void changeDirectory(const std::string& directory) {
 	EnvVars::setVar("OLDPWD", EnvVars::getVar("PWD"));
 	EnvVars::setVar("PWD", directory);
 }
 
-void changeToHome() {
+static void changeToHome() {
 	changeDirectory(EnvVars::getVar("HOME"));
 }
 
-void changeToOld() {
+static void changeToOld() {
 	changeDirectory(EnvVars::getVar("OLDPWD"));
 }
 
-void changeToParent() {
+static void changeToParent() {
 	std::filesystem::path pwd = EnvVars::getVar("PWD");
 	changeDirectory(pwd.parent_path().string());
 }
 
-void changeToRoot() {
+static void changeToRoot() {
 	std::filesystem::path pwd = EnvVars::getVar("PWD");
 	changeDirectory(pwd.root_path().string());
 }

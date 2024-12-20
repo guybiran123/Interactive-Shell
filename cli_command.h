@@ -12,6 +12,7 @@
 #include "echo_command.h"
 #include "cat_command.h"
 #include "cd_command.h"
+#include "ls_command.h"
 #include "out.h"
 
 struct Redirection_s {
