@@ -2,9 +2,11 @@
 
 #include <filesystem>
 #include <string>
+#include <vector>
 #include <Windows.h>
 #include <utility>
 #include <cstdint>
+#include <algorithm>
 #include "command.h"
 #include "env_vars.h"
 
@@ -31,9 +33,23 @@ public:
 
 	std::vector<WIN32_FIND_DATAA> getFilesFindData(const std::string& path);
 
-	void handleFlags(const std::vector<std::vector<WIN32_FIND_DATAA>>& dirsFilesFindData);
+	void handleFlags(std::vector<std::vector<WIN32_FIND_DATAA>>& dirsFilesFindData);
 
-	FileInfo_s getFileInfo(const WIN32_FIND_DATAA& fileFindData);
+	void handleFlagsForDir(std::vector<WIN32_FIND_DATAA>& filesFindData);
+	
+	void removeHiddenFiles(std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	void sortByTime(std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	void sortByAlphaBet(std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	void reverseOrder(std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	void printFilesNames(const std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	void printLongListing(const std::vector<WIN32_FIND_DATAA>& filesFindData);
+
+	FileInfo_s getFileInfo(const WIN32_FIND_DATAA& filesFindData);
 
 	void assignAttributes(FileInfo_s& fileInfo, const DWORD& fileAttributes);
 
