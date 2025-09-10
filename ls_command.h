@@ -14,7 +14,6 @@
 struct FileInfo_s {
 	bool isFile;
 	std::string attributes;
-	//std::string owner;
 	uint64_t size;
 	SYSTEMTIME time;
 	std::string name;

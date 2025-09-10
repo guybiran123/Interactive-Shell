@@ -42,7 +42,7 @@ void CliCommand::removeLeadingAndTrailingSpaces() {
 // TODO: change it to work with both redirections in one command
 void CliCommand::searchRedirection() { 
 	// Searches for redirection in cli command
-	int redirectionPos = cliCommand.find(ERROR_REDIRECTION_SYMBOL);
+	auto redirectionPos = cliCommand.find(ERROR_REDIRECTION_SYMBOL);
 	if (redirectionPos != std::string::npos) {
 		errRedirection.toRedirect = true;
 		error.doesExist = true;

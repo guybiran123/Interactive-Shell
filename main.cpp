@@ -14,6 +14,9 @@ int main()
         if (cliString == "exit") {
             break;
         }
+        if (cliString == "") {
+            continue;
+        }
         cli.execute(cliString);
     }
     return 0;
