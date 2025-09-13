@@ -18,5 +18,4 @@ std::string EnvVars::getVar(const std::string& key) {
 		return env[key];
 	}
 	return "";
-	//return env.count(key) ? env[key] : "";
 }

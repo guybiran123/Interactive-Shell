@@ -16,4 +16,4 @@ inline constexpr std::string_view ECHO_VALID_FLAGS = "";
 inline constexpr std::string_view CAT_VALID_FLAGS = "nEs";
 inline constexpr std::string_view CD_VALID_FLAGS = "";
 inline constexpr std::string_view LS_VALID_FLAGS = "lahRtr";
-
+inline constexpr std::string_view HELP_VALID_FLAGS = "";

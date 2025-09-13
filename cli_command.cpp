@@ -5,7 +5,7 @@ void Redirection_s::initialize() {
 	fileName = "";
 }
 
-const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo", "cat", "cd", "ls" };
+const std::vector<std::string> CliCommand::VALID_COMMANDS = { "echo", "cat", "cd", "ls", "help"};
 
 void CliCommand::execute(const std::string& cliCommand, bool userEntered) {
 	//executes the full CLI command
@@ -120,7 +120,8 @@ std::unique_ptr<Command> CliCommand::createCommand(const ParsedCommand_s& parsed
 		{"echo", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<EchoCommand>(parsedCommand.flags, parsedCommand.arguments); }},
 		{"cat", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<CatCommand>(parsedCommand.flags, parsedCommand.arguments); }},
 		{"cd", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<CdCommand>(parsedCommand.flags, parsedCommand.arguments); }},
-		{"ls", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<LsCommand>(parsedCommand.flags, parsedCommand.arguments); }}
+		{"ls", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<LsCommand>(parsedCommand.flags, parsedCommand.arguments); }},
+		{"help", [](const ParsedCommand_s& parsedCommand) { return std::make_unique<HelpCommand>(parsedCommand.flags, parsedCommand.arguments); }}
 	};
 
 	auto iterator = commandTable.find(parsedCommand.commandName);
