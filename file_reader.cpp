@@ -1,7 +1,8 @@
 #include "file_reader.h"
 
 FileReader::FileReader(const std::string& fileName) {
-	file.open(fileName);
+	std::filesystem::path p = resolvePath(fileName);
+	file.open(p);
 	if (!file.is_open()) {
 		throw std::runtime_error("Failed to open file: " + fileName);
 	}

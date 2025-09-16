@@ -1,5 +1,7 @@
 #pragma once
 #include <fstream>
+#include <filesystem>
+#include "utils.h"
 
 class FileOutput {
 private:

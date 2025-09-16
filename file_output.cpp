@@ -1,9 +1,10 @@
 #include "file_output.h"
 
 FileOutput::FileOutput(const std::string& fileName, bool append) {
-	file.open(fileName, (append ? std::ios::app : std::ios::out));
+	std::filesystem::path p = resolvePath(fileName);
+	file.open(p, (append ? std::ios::app : std::ios::out));
 	if (!file.is_open()) {
-		throw std::runtime_error("Failed to open file: " + fileName);
+		throw std::runtime_error("Failed to open file: " + p.string());
 	}
 }
 

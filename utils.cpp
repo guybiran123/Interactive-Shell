@@ -45,3 +45,15 @@ std::string trimTrailingSpaces(std::string str) {
 	std::reverse(str.begin(), str.end());
 	return str;
 }
+
+std::filesystem::path resolvePath(const std::string& userInput) {
+	std::filesystem::path p(userInput);
+
+	if (p.is_absolute()) {
+		return p.lexically_normal();  // clean up things like "..", "."
+	}
+	else {
+		return (EnvVars::getVar("PWD") / p).lexically_normal();
+	}
+}
+

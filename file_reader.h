@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <string>
+#include "utils.h"
 
 class FileReader {
 private:
