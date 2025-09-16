@@ -11,25 +11,19 @@ void CatCommand::execute() {
 		writeErrorMessage(exception.what());
 		return;
 	}
-	
-	std::unique_ptr<FileReader> file_ptr;
 	for (const std::string& arg : arguments) {
 		try {
-			file_ptr = std::make_unique<FileReader>(arg);
+			FileReader file(arg);
+			std::string fileContent = file.read();
+			makeFlagsChanges(fileContent);
+			output.doesExist = true;
+			output.message += fileContent;
 		}
 		catch (const std::runtime_error& exception) {
-			try {
-				file_ptr = std::make_unique<FileReader>(EnvVars::getVar("PWD") + "\\" + arg);
-			}
-			catch(const std::runtime_error& exception2){
-				writeErrorMessage(exception.what());
-				return;
-			}
+			writeErrorMessage(exception.what());
+			return;
 		}
-		std::string fileContent = file_ptr->read();
-		makeFlagsChanges(fileContent);
-		output.doesExist = true;
-		output.message += fileContent;
+		
 	}
 }
 
