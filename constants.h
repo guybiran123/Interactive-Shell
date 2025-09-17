@@ -2,8 +2,9 @@
 
 #include <array>
 #include <string_view>
+#include <filesystem>
 
-inline constexpr std::string_view HOME_DIRECTORY = "C:\\Users\\guybi\\MyShellHome";
+inline std::string HOME_DIRECTORY = std::filesystem::current_path().string();
 
 inline constexpr std::array<std::string_view, 2> OUTPUT_REDIRECTION_SYMBOLS = { ">", "1>" };
 inline constexpr std::string_view ERROR_REDIRECTION_SYMBOL = "2>";
