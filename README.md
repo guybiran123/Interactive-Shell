@@ -9,6 +9,7 @@ A lightweight interactive shell implemented in **C++**. This project aims to dem
 - **Status:** Work in progress — core features implemented but several limitations/bugs remain.
 - **Supported built-ins:** `echo`, `cat`, `cd`, `ls`, `help`
 - **Redirection:** Output redirection (`>`/`1>`) and error redirection (`2>`) supported . Input redirection (`<`) and pipes (`|`) are **not** implemented yet.
+- **Platform:** The program is built for Windows. Running on Unix/Linux is not supported.
 
 ---
 
@@ -17,54 +18,48 @@ A lightweight interactive shell implemented in **C++**. This project aims to dem
 - Built-in commands: `echo`, `cat`, `cd`, `ls`, `help`.
 - Simple output redirection using `>` (overwrites target file).
 - Maintains a persistent working directory for the session.
+- Several flags implemented for the built in commands. try the help command to learn more.
 
 ---
 
 ## Installation
 
 **Requirements**
-- A C++ compiler with C++20 support (e.g., `g++`, `clang++`).
+- A C++ compiler with C++20 support (e.g., `g++` via MinGW, `clang++`, or Visual Studio).
 - `make` (optional, if a `Makefile` is present).
 
-**Build using make** (recommended if a Makefile is provided):
+**Build using make (optional):**
 
-```bash
+```powershell
 git clone https://github.com/guybiran123/Interactive-Shell.git
 cd Interactive-Shell
 make
-# resulting binary: ./interactive-shell
+# resulting binary (Windows): interactive-shell.exe
 ```
 
-**Build manually** (example):
+**Build manually (example with g++ on Windows):**
 
-```bash
-g++ -std=c++20 -O2 -Wall -o interactive-shell src/*.cpp
+```powershell
+g++ -std=c++20 -O2 -Wall -o interactive-shell.exe src\*.cpp
 ```
 
-Adjust the `src/*.cpp` to match your source layout.
+Adjust the `src\*.cpp` to match your source layout.  
+The resulting binary will run on **Windows only**.
 
 ---
 
 ## Usage
 
-Start the shell from the project directory (or any folder):
+Start the shell from the project directory (or any folder).
+
+Example interactive session:
 
 ![Example interactive Session](./example_usage_screenshot.png)
 
-### Output redirection examples
-Write text to a file (overwrites if exists):
-
-```
-> echo hello > output.txt
-> cat output.txt
-hello
-```
-
-Redirecting a command's stdout into a file in the current working directory.
 
 ---
 
-## Supported commands (reference)
+## Supported commands
 
 - `echo [args..]` — prints its arguments to stdout.
 - `cat <file>` — prints the contents of `<file>` to stdout.
@@ -75,9 +70,7 @@ Redirecting a command's stdout into a file in the current working directory.
 ---
 
   - **Workarounds:**
-    - Use an explicit relative path that clarifies you mean the current directory: `> ./newfile.txt`.
-    - Use an absolute path: `> /home/user/some/subdir/newfile.txt`.
-    - `cd` to the desired directory before running the redirect (and prefer providing a full path to the redirected file).
+  - `cd` to the desired directory before running the redirect (and prefer providing a full path to the redirected file).
 
 - **No input redirection or piping:** `<` and `|` are not supported yet.
 - **Limited parsing:** The command parser is simple — advanced quoting, escaping, and complex command lines might not behave exactly like a POSIX shell.
