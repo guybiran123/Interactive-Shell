@@ -26,21 +26,12 @@ A lightweight interactive shell implemented in **C++**. This project aims to dem
 
 **Requirements**
 - A C++ compiler with C++20 support (e.g., `g++` via MinGW, `clang++`, or Visual Studio).
-- `make` (optional, if a `Makefile` is present).
 
-**Build using make (optional):**
-
-```powershell
-git clone https://github.com/guybiran123/Interactive-Shell.git
-cd Interactive-Shell
-make
-# resulting binary (Windows): interactive-shell.exe
-```
 
 **Build manually (example with g++ on Windows):**
 
 ```powershell
-g++ -std=c++20 -O2 -Wall -o interactive-shell.exe src\*.cpp
+g++ -std=c++20 -O2 -Wall -o interactive-shell.exe *.cpp
 ```
 
 Adjust the `src\*.cpp` to match your source layout.  
