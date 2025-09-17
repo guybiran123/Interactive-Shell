@@ -1,0 +1,33 @@
+# Ignore Visual Studio user-specific files and workspace settings
+.vs/
+*.suo
+*.user
+*.ncb
+*.sdf
+*.opendb
+*.VC.db
+
+# Keep project files (.vcxproj and .filters) so solution can load
+# *.vcxproj*   <- removed this line
+
+# Build directories
+x64/
+bin/
+build/
+Debug/
+Release/
+
+# Executables and object files
+*.exe
+*.obj
+*.o
+*.dll
+*.lib
+*.out
+
+# Temporary files / logs
+*.log
+*.tmp
+
+
+example_usage_screenshot.png
